@@ -1,0 +1,3 @@
+[submodule "blip/queues/examples/amqp-demo"]
+	path = blip/queues/examples/amqp-demo
+	url = https://github.com/gregturn/amqp-demo.git

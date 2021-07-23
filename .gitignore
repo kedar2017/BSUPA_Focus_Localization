@@ -1,0 +1,14 @@
+*.pyc
+*.swp
+*~
+
+*.dat
+
+blip/.ropeproject/
+
+dist/
+build/
+buildp.egg-info//
+
+blip/common/*.json
+blip/predictor/

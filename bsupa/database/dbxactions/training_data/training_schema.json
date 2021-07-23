@@ -1,0 +1,66 @@
+{
+    "keyspace":{
+        "create"      : "CREATE KEYSPACE %s WITH replication={ 'class': '%s', 'replication_factor' : %s };",
+        "drop"        : "DROP KEYSPACE %s ;",
+        "list_tables" : "SELECT columnfamily_name FROM system.schema_columnfamilies WHERE keyspace_name=%s"
+    },
+
+    "raw_data" : {
+        "insert"     : "INSERT INTO %s.%s (bt_id, ble_id, signal_strength) VALUES(?, ?, ?)",
+        "drop"       : "DROP TABLES %s.%s",
+        "delete"     : "DELETE FROM %s.%s WHERE %s = %s",
+        "create"     : "CREATE TABLE %s.%s(bt_id uuid, ble_id text, signal_strength list<int>, PRIMARY KEY(bt_id) )",
+        "select"     : "SELECT %s from %s.%s ",
+        "con_select" : "SELECT %s from %s.%s where bt_id = ?",
+        "truncate"   : "TRUNCATE %s.raw_data_t"
+    },
+
+    "cell" : {
+        "insert"     : "INSERT INTO %s.%s (cid, hash, timestamp, x, y, bt_id, gps) VALUES(?, ?, ?, ?, ?, ?, ?)",
+        "delete"     : "DELETE FROM %s.%s WHERE %s = %s",
+        "drop"       : "DROP TABLE %s.%s",
+        "create"     : "CREATE TABLE %s.%s(cid uuid, hash text, timestamp bigint,  x int, y int, bt_id list<uuid>,gps list<float>, PRIMARY KEY(cid, x, y) )",
+        "update"     : "UPDATE %s.%s SET %s = ? WHERE cid = ?",
+        "select"     : "SELECT %s from %s.%s ",
+        "con_select" : "SELECT %s from %s.%s where cid = ?",
+        "truncate"   : "TRUNCATE %s.cell_t"
+    },
+
+    "location" : {
+        "insert"     : "INSERT INTO %s.%s(property, floor, shop, section, x, y, is_processed, list_processed_cids) VALUES(?, ?, ?, ?, ?, ?, ?, ?)",
+        "drop"       : "DROP TABLE %s.%s",
+        "update"     : "UPDATE %s.%s SET %s = ? WHERE shop = ?",
+        "update_app" : "UPDATE %s.%s SET %s = %s + ? WHERE shop = ? AND property = ? AND floor = ?  AND x = ? AND y = ? AND section = ?",
+        "delete"     : "DELETE FROM %s.%s WHERE %s = %s",
+        "create"     : "CREATE TABLE %s.%s(property text, floor int, shop text, section text, list_raw_cids list<uuid>, x int, y int, is_processed boolean, list_processed_cids uuid, PRIMARY KEY(shop, property, floor, x, y,section) )",
+        "select"     : "SELECT %s from %s.%s",
+        "con_select" : "SELECT %s from %s.%s where shop = ?",
+		"cid_select" : "SELECT %s from %s.%s where shop = ? AND property = ? AND floor = ? AND x = ? AND y = ? AND section = ?" ,
+		"set_bool"   : "UPDATE %s.%s SET %s = ? WHERE shop = ? AND property = ? AND floor = ?  AND x = ? AND y = ? AND section = ?",
+        "truncate"   : "TRUNCATE %s.location_t"
+    },
+
+     "processed_data" : {
+        "insert"     : "INSERT INTO %s.%s (cid) VALUES(?)",
+        "drop"       : "DROP TABLE %s.%s",
+        "delete"     : "DELETE FROM %s.%s WHERE %s = %s",
+        "create"     : "CREATE TABLE %s.%s(cid uuid, ble_id list<text>, mean list<float>, std list<float>, min list<float>, max list<float>, PRIMARY KEY(cid) )",
+        "select"     : "SELECT %s from %s.%s ",
+        "con_select" : "SELECT %s from %s.%s where cid = ?",
+        "update"     : "UPDATE %s.%s SET %s = ? WHERE cid = ?",
+		"update_app" : "UPDATE %s.%s SET %s = %s + ? WHERE cid = ?",
+        "truncate"   : "TRUNCATE %s.processed_data_t"
+    },
+
+	"ble_modules"    : {
+		"insert"     : "INSERT INTO %s.%s(shop) VALUES(?)",
+		"drop"       : "DROP TABLE %s.%s",
+        "delete"     : "DELETE FROM %s.%s WHERE %s = %s",
+		"create"     : "CREATE TABLE %s.%s(ble_id list<text>, x list<float>, y list<float>, section list<text>, shop text, PRIMARY KEY(shop) )",
+        "select"     : "SELECT %s from %s.%s ",
+	    "con_select" : "SELECT %s from %s.%s where shop = ?",
+		"update"     : "UPDATE %s.%s SET %s = %s + ? WHERE shop = ?",
+        "truncate"   : "TRUNCATE %s.ble_modules_t"
+	}
+
+}

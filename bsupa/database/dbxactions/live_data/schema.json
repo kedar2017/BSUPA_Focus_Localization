@@ -1,0 +1,28 @@
+{
+    "keyspace":{
+        "create": "CREATE KEYSPACE %s WITH replication={ 'class' : '%s', 'replication_factor': %s };",
+        "drop": "DROP KEYSPACE %s ;",
+        "list_tables" : "SELECT columnfamily_name FROM system.schema_columnfamilies WHERE keyspace_name=%s"
+    },
+
+    "ssid" : {
+        "insert" : "INSERT INTO %s.lss_%s (id, name, signal_strength) VALUES(%s, '%s', %s)",
+        "drop"   : "DROP TABLES %s.lss_%s",
+        "delete" : "DELETE FROM %s.lss_%s WHERE %s = '%s'",
+        "create" : "CREATE TABLE %s.lss_%s( id uuid PRIMARY KEY, name text, signal_strength int)",
+        "select" : "SELECT %s from %s.lss_%s WHERE id=%s"
+    },
+
+    "cell" : {
+        "insert" : "INSERT INTO %s.lc_%s (hash, timestamp, gps, mall_name, floor_name, sec_prediction, predicted_x, predicted_y, ssids_list, extra_detail, extra_details2) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        "delete" : "DELETE FROM %s.lc_%s WHERE %s = '%s'",
+        "drop"   : "DROP TABLE %s.lc_%s",
+        "create" : "CREATE TABLE %s.lc_%s(hash text, timestamp bigint, gps list<float>, mall_name text, floor_name text, sec_prediction map<text, float>, predicted_x list<int> , predicted_y list<int>, ssids_list list<uuid>, extra_detail text, extra_details2 text, PRIMARY KEY(hash, timestamp))",
+        "select_hash" : "SELECT %s from %s.lc_%s WHERE hash = %s ",
+        "select_timestamp" : "SELECT %s from %s.lc_%s WHERE timestamp %s %s ALLOW FILTERING",
+        "select_condition" : "SELECT %s from %s.lc_%s WHERE hash = '%s' AND timestamp %s %s",
+        "select_all" : "SELECT %s from %s.lc_%s",
+        "delete": "DELETE FROM %s.lc_%s WHERE hash = '%s' AND timestamp = %s"
+    }
+
+}

@@ -1,0 +1,46 @@
+{
+    "keyspace":{
+        "create": "CREATE KEYSPACE %s WITH replication={ 'class' : '%s', 'replication_factor': %s };",
+        "drop": "DROP KEYSPACE %s ;",
+        "list_tables" : "SELECT columnfamily_name FROM system.schema_columnfamilies WHERE keyspace_name=%s"
+    },
+
+    "ssid" : {
+        "insert" : "INSERT INTO %s.ss_%s (id, name, signal_strength) VALUES(%s, '%s', %s)",
+        "drop"   : "DROP TABLES %s.ss_%s",
+        "delete" : "DELETE FROM %s.ss_%s WHERE %s = '%s'",
+        "create" : "CREATE TABLE %s.ss_%s( id uuid PRIMARY KEY, name text, signal_strength list<int>)",
+        "select" : "SELECT %s from %s.ss_%s WHERE id=%s",
+        "update" : "UPDATE %s.ss_%s SET %s = %s + %s WHERE %s = %s"
+    },
+
+    "cell" : {
+        "insert" : "INSERT INTO %s.c_%s (x, y, ssid_ids, hash, timestamp, raw_section, gps, mallname, floornumber, extra_details, extra_details2, assigned_section) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        "delete" : "DELETE FROM %s.c_%s WHERE %s = '%s'",
+        "drop"   : "DROP TABLE %s.c_%s",
+        "create" : "CREATE TABLE %s.c_%s(x int, y int, ssid_ids list<uuid> ,hash text, timestamp bigint, raw_section text, gps list<float>, mallname text, floornumber int, extra_details text, extra_details2 text, assigned_section text, PRIMARY KEY(mallname, floornumber, raw_section, x, y))",
+        "select" : "SELECT %s from %s.c_%s",
+        "select_each" : "SELECT %s from %s.c_%s WHERE mallname='%s' AND floornumber=%s AND raw_section='%s' AND x=%s AND y=%s",
+        "update_carry" : "UPDATE %s.c_%s SET %s = %s + %s WHERE %s='%s' AND %s=%s AND %s='%s' AND %s=%s AND %s=%s",
+        "update_wcarry" : "UPDATE %s.c_%s SET %s = %s WHERE %s='%s' AND %s=%s AND %s='%s' AND %s=%s AND %s=%s"
+    },
+
+    "section" : {
+        "insert" : "INSERT INTO %s.se_%s( id, name, cells) VALUES(%s, %s, %s)",
+        "drop" : "DROP TABLE %s.se_%s",
+        "update" : "UPDATE %s.se_%s SET %s = '%s' WHERE %s = '%s'",
+        "delete" : "DELETE FROM %s.se_%s WHERE %s = '%s'",
+        "create" : "CREATE TABLE %s.se_%s(id uuid PRIMARY KEY, name text, cell_ids list<uuid>)",
+        "select" : "SELECT %s from %s.se_%s"
+    },
+
+    "floor" : {
+        "insert" : "INSERT INTO %s.f_%s(id, name, section_ids) VALUES(%s, '%s', %s)",
+        "drop" : "DROP TABLE %s.f_%s",
+        "update" : "UPDATE %s.f_%s SET %s = '%s' WHERE %s = '%s'",
+        "delete" : "DELETE FROM %s.f_%s WHERE %s = '%s'",
+        "create" : "CREATE TABLE %s.f_%s(id uuid PRIMARY KEY, name text, section_ids list<uuid>)",
+        "select" : "SELECT %s from %s.f_%s"
+    }
+
+}
